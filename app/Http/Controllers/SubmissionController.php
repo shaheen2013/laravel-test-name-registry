@@ -11,12 +11,13 @@ class SubmissionController extends Controller
 {
     public function post(SubmissionPostRequest $request)
     {
-        $submission = new Submission();
-        $submission->name = $request->name;
-        $submission->email = $request->email;
-        $submission->message = $request->message;
+        $submission = new Submission([
+            'name' => $request->name,
+            'email' => $request->email,
+            'message' => $request->message,
+        ]);
 
-        SaveSubmission::dispatch($submission);
+        SaveSubmission::dispatch($submission->name, $submission->email, $submission->message);
 
         return response()->json(['message' => 'Submission received'], 200);
     }
